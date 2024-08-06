@@ -2,7 +2,7 @@ import psycopg2
 
 def create_connection():
     return psycopg2.connect(
-        database="your_database_name",
+        database="walletapp_db",
         user="your_database_user",
         password="your_database_password",
         host="your_database_host",
