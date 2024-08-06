@@ -21,7 +21,7 @@ def main_menu():
         if user_input == '2':
             active_user = url_patterns[user_input](active_user)
         elif user_input == '3' or '4' or '5' or '6' or '7' or '8' or '9':
-            print("Please Sign/up or Login first")
+            print("Please Signup or Login first")
         elif user_input == '10':
             active = False
         else:
