@@ -1,8 +1,16 @@
-from urls import url_patterns
+from views import UserViews, WalletViews, TransactionViews
+from repository import UserRepository, WalletRepository, TransactionRepository
 
 def main_menu():
-    active = True
+    user_repo = UserRepository()
+    wallet_repo = WalletRepository()
+    transaction_repo = TransactionRepository()
+    user_views = UserViews(user_repo)
+    wallet_views = WalletViews(wallet_repo)
+    transaction_views = TransactionViews(transaction_repo)
+
     active_user = None
+    active = True
 
     while active:
         print("\nEnter the corresponding numbers to perform an action.")
@@ -17,25 +25,32 @@ def main_menu():
                            "9. Sign out \n"
                            "10. Exit App \n"
                            )
-
-        if user_input == '2':
-            active_user = url_patterns[user_input](active_user)
-        elif user_input == '3' or '4' or '5' or '6' or '7' or '8' or '9':
-            print("Please Signup or Login first")
+        if user_input == '1':
+            active_user = user_views.signup()
+        elif user_input == '2':
+            active_user = user_views.login()
+        elif user_input == '9':
+            active_user = user_views.logout()
         elif user_input == '10':
             active = False
         else:
-            try:
-                int(user_input)
-            except ValueError:
-                print('You need to enter a valid number')
+            if not active_user:
+                print("Please login or signup first.")
                 continue
+            if user_input == '3':
+                wallet_views.deposit(active_user.user_id)
+            elif user_input == '4':
+                wallet_views.withdraw(active_user.user_id)
+            elif user_input == '5':
+                wallet_views.send(active_user.user_id)
+            elif user_input == '6':
+                wallet_views.view_balance(active_user.user_id)
+            elif user_input == '7':
+                transaction_views.view_transactions(active_user.user_id)
+            elif user_input == '8':
+                transaction_views.view_single_transaction()
             else:
-                url_patterns[user_input](active_user)
-
-def exit_program():
-    print("Exiting the program.")
-    exit()
+                print('You need to enter a valid number')
 
 if __name__ == "__main__":
     main_menu()
