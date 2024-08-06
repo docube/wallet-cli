@@ -1,86 +1,110 @@
 from repository import UserRepository, WalletRepository, TransactionRepository
 
-class UserViews:
-    def __init__(self, user_repo):
-        self.user_repo = user_repo
+user_repo = UserRepository('users.csv')
+wallet_repo = WalletRepository('wallets.csv')
+txn_repo = TransactionRepository('transactions.csv')
 
-    def signup(self):
-        print("Sign Up")
-        name = input("Enter your name: ")
-        email = input("Enter your email: ")
-        password = input("Enter a password: ")
-        user_id = str(len(self.user_repo.users) + 1)
-        self.user_repo.create_user(name, email, password, user_id)
+def signup():
+    print("Sign Up")
+    name = input("Enter your name: ")
+    email = input("Enter your email: ")
+    username = input("Enter a username: ")
+    password = input("Enter a password: ")
+
+    if user_repo.create_user(name, email, password, username):
+        wallet_repo.create_wallet(username, username)
         print("Sign up successful! Logging you in...")
-        return self.user_repo.authenticate_user(email, password)
+        login(username, password)
+    else:
+        print("Username already exists. Please try a different one.")
 
-    def login(self):
-        print("Log In")
-        email = input("Enter your email: ")
+def login(username=None, password=None):
+    print("Log In")
+    if username is None:
+        username = input("Enter your username: ")
+    if password is None:
         password = input("Enter your password: ")
-        user = self.user_repo.authenticate_user(email, password)
-        if user:
-            print("Login successful!")
-            return user
+
+    user = user_repo.authenticate_user(username, password)
+    if user:
+        print("Login successful!")
+        dashboard(username)
+    else:
+        print("Incorrect username or password. Please try again.")
+
+def dashboard(username):
+    print(f"Welcome to your wallet, {username}!")
+    while True:
+        print("\nPlease select an option:")
+        print("1. Deposit money")
+        print("2. Withdraw money")
+        print("3. Send money")
+        print("4. View balance")
+        print("5. View transactions")
+        print("6. View single transaction")
+        print("7. Logout")
+
+        choice = input("Enter your choice (1/2/3/4/5/6/7): ")
+        if choice == '1':
+            deposit_money(username)
+        elif choice == '2':
+            withdraw_money(username)
+        elif choice == '3':
+            send_money(username)
+        elif choice == '4':
+            view_balance(username)
+        elif choice == '5':
+            view_transactions(username)
+        elif choice == '6':
+            view_single_transaction(username)
+        elif choice == '7':
+            print("Logging out...")
+            break
         else:
-            print("Incorrect email or password. Please try again.")
-            return None
+            print("Invalid choice. Please select a valid option.")
 
-    def logout(self):
-        return self.user_repo.logout()
+def deposit_money(username):
+    amount = float(input("Enter the amount to deposit: ₦"))
+    wallet_repo.deposit(username, amount)
+    print(f"Deposited ₦{amount} successfully.")
 
-class WalletViews:
-    def __init__(self, wallet_repo):
-        self.wallet_repo = wallet_repo
+def withdraw_money(username):
+    amount = float(input("Enter the amount to withdraw: ₦"))
+    if wallet_repo.withdraw(username, amount):
+        print(f"Withdrew ₦{amount} successfully.")
+    else:
+        print("Insufficient balance.")
 
-    def view_wallet(self, user_id):
-        wallet = self.wallet_repo.view_wallet(user_id)
-        if wallet:
-            print(f"Wallet ID: {wallet.wallet_id}, Balance: {wallet.balance}")
+def send_money(username):
+    recipient = input("Enter the recipient's username: ")
+    if recipient not in user_repo.users:
+        print("Recipient not found.")
+        return
 
-    def view_balance(self, user_id):
-        balance = self.wallet_repo.view_balance(user_id)
-        if balance is not None:
-            print(f"Your current balance is: ₦{balance}")
-        else:
-            print("Wallet not found.")
+    amount = float(input("Enter the amount to send: ₦"))
+    if wallet_repo.send_money(username, recipient, amount):
+        txn_repo.create_transaction(username, recipient, amount)
+        print(f"Sent ₦{amount} to {recipient} successfully.")
+    else:
+        print("Transaction failed due to insufficient balance or other issues.")
 
-    def send(self, sender_id):
-        recipient_id = input("Enter the recipient's wallet ID: ")
-        amount = float(input("Enter the amount to send: ₦"))
-        if self.wallet_repo.send(sender_id, recipient_id, amount):
-            print(f"Sent ₦{amount} to {recipient_id} successfully.")
-        else:
-            print("Failed to send money.")
+def view_balance(username):
+    balance = wallet_repo.view_balance(username)
+    print(f"Your current balance is: ₦{balance}")
 
-    def deposit(self, wallet_id):
-        amount = float(input("Enter the amount to deposit: ₦"))
-        balance = self.wallet_repo.deposit(wallet_id, amount)
-        if balance is not None:
-            print(f"Deposited ₦{amount}. New balance: ₦{balance}")
+def view_transactions(username):
+    transactions = txn_repo.view_transactions(username)
+    if not transactions:
+        print("No transactions found.")
+        return
+    print("Your transactions:")
+    for txn in transactions:
+        print(f"{txn[0]}. {txn[1]}")
 
-    def withdraw(self, wallet_id):
-        amount = float(input("Enter the amount to withdraw: ₦"))
-        balance = self.wallet_repo.withdraw(wallet_id, amount)
-        if balance is not None:
-            print(f"Withdrew ₦{amount}. New balance: ₦{balance}")
-
-class TransactionViews:
-    def __init__(self, transaction_repo):
-        self.transaction_repo = transaction_repo
-
-    def view_transactions(self, user_id):
-        transactions = self.transaction_repo.view_transactions(user_id)
-        if transactions:
-            for txn in transactions:
-                print(f"{txn.transaction_id}: {txn.amount} - {txn.created_at}")
-        else:
-            print("No transactions found.")
-
-    def view_single_transaction(self):
-        txn_id = input("Enter the transaction ID: ")
-        transaction = self.transaction_repo.view_single_transaction(txn_id)
-        if transaction:
-            print(f"Transaction ID: {transaction.transaction_id}, Amount: {transaction.amount}, Time: {transaction.created_at}")
-        else:
-            print("Transaction not found.")
+def view_single_transaction(username):
+    txn_id = int(input("Enter the transaction ID to view details: "))
+    txn = txn_repo.view_single_transaction(username, txn_id)
+    if txn:
+        print(f"Transaction {txn_id}: {txn[1]}")
+    else:
+        print("Transaction ID not found.")
