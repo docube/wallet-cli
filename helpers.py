@@ -2,11 +2,11 @@ import psycopg2
 
 def create_connection():
     return psycopg2.connect(
-        database="walletapp_db",
-        user="your_database_user",
-        password="your_database_password",
-        host="your_database_host",
-        port="your_database_port"
+        database="postgres",
+        user="postgres",
+        password="D.O.Cube091",
+        host="localhost",
+        port="5432"
     )
 
 def create_tables():
