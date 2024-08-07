@@ -21,7 +21,7 @@ def main_menu():
             paths[1]()
         elif choice == '2':
             active_user = paths[2]()
-        elif choice == '3' or '4' or '5' or '6':
+        elif choice in ('3', '4', '5', '6'):
             print('Please Login or Signup if you are a first time User:')
         elif choice == '7':
             print("Exiting the program.")
