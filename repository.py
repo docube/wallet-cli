@@ -115,14 +115,31 @@ class TransactionRepository:
                     writer.writerow([username, txn[0], txn[1]])
 
     def create_transaction(self, sender, receiver, amount, txn_type):
-        transaction_id = len(self.transactions.get(sender, [])) + 1
-        transaction = Transaction(transaction_id, sender, receiver, amount, txn_type)
-        if sender not in self.transactions:
-            self.transactions[sender] = []
-        if receiver not in self.transactions:
-            self.transactions[receiver] = []
-        self.transactions[sender].append((transaction_id, f"Sent ₦{amount} to {receiver}"))
-        self.transactions[receiver].append((transaction_id, f"Received ₦{amount} from {sender}"))
+        if txn_type == "Deposit":
+            transaction_id = len(self.transactions.get(sender, [])) + 1
+            transaction = Transaction(transaction_id, sender, receiver, amount, txn_type)
+            if sender not in self.transactions:
+                self.transactions[sender] = []
+            self.transactions[sender].append((transaction_id, f"You deposited ₦{amount} into your wallet"))
+        
+        elif txn_type == "Withdraw":
+            transaction_id = len(self.transactions.get(sender, [])) + 1
+            transaction = Transaction(transaction_id, sender, receiver, amount, txn_type)
+            if sender not in self.transactions:
+                self.transactions[sender] = []
+            self.transactions[sender].append((transaction_id, f"You withdrew ₦{amount} from your wallet"))
+        
+        elif txn_type == "Send":
+            transaction_id = len(self.transactions.get(sender, [])) + 1
+            transaction = Transaction(transaction_id, sender, receiver, amount, txn_type)
+            if sender not in self.transactions:
+                self.transactions[sender] = []
+            self.transactions[sender].append((transaction_id, f"Sent ₦{amount} to {receiver}"))
+            
+            if receiver not in self.transactions:
+                self.transactions[receiver] = []
+            self.transactions[receiver].append((transaction_id, f"Received ₦{amount} from {sender}"))
+
         self.save_transactions()
 
     def view_transactions(self, user_id):
@@ -134,3 +151,4 @@ class TransactionRepository:
             if txn[0] == transaction_id:
                 return txn
         return None
+    
