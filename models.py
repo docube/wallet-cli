@@ -9,7 +9,7 @@ class User:
         self.created_at = datetime.now()
 
 class Wallet:
-    def __init__(self, wallet_id, user_id):
+    def __init__(self, wallet_id, user_id, balance=0.0):
         self.wallet_id = wallet_id
         self.balance = 0.0
         self.user_id = user_id
@@ -32,4 +32,4 @@ class Transaction:
         self.amount = amount
         self.txn_type = txn_type
         self.created_at = datetime.now()
-        
+
