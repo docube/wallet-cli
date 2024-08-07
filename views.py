@@ -99,7 +99,7 @@ def view_transactions(username):
         return
     print("Your transactions:")
     for txn in transactions:
-        print(f"₦{txn[0]}. {txn[1]}")
+        print(f"{txn[0]}. {txn[1]}")
 
 def view_single_transaction(username):
     txn_id = int(input("Enter the transaction ID to view details: "))
