@@ -88,6 +88,9 @@ class WalletRepository:
         return False
 
     def send_money(self, sender_id, receiver_id, amount):
+        if sender_id == receiver_id:
+            print("You cannot send money to yourself.")
+            return False
         if self.withdraw(sender_id, amount):
             return self.deposit(receiver_id, amount)
         return False
