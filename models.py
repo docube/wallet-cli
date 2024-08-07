@@ -30,5 +30,6 @@ class Transaction:
         self.sender = sender
         self.receiver = receiver
         self.amount = amount
-        self.created_at = datetime.now()
         self.txn_type = txn_type
+        self.created_at = datetime.now()
+        
