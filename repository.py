@@ -97,7 +97,7 @@ class TransactionRepository:
 
     def load_transactions(self):
         if os.path.exists(self.transactions_file):
-            with open(self.transactions_file, mode='r', newline='') as file:
+            with open(self.transactions_file, mode='r', newline='', encoding='utf-8') as file:
                 reader = csv.reader(file)
                 for row in reader:
                     username = row[0]
@@ -108,7 +108,7 @@ class TransactionRepository:
                     self.transactions[username].append((txn_id, txn_details))
 
     def save_transactions(self):
-        with open(self.transactions_file, mode='w', newline='') as file:
+        with open(self.transactions_file, mode='w', newline='', encoding='utf-8') as file:
             writer = csv.writer(file)
             for username, txns in self.transactions.items():
                 for txn in txns:
@@ -121,8 +121,8 @@ class TransactionRepository:
             self.transactions[sender] = []
         if receiver not in self.transactions:
             self.transactions[receiver] = []
-        self.transactions[sender].append((transaction_id, f"Sent {amount} to {receiver}"))
-        self.transactions[receiver].append((transaction_id, f"Received {amount} from {sender}"))
+        self.transactions[sender].append((transaction_id, f"Sent ₦{amount} to {receiver}"))
+        self.transactions[receiver].append((transaction_id, f"Received ₦{amount} from {sender}"))
         self.save_transactions()
 
     def view_transactions(self, user_id):
