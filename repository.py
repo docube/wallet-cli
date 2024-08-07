@@ -50,7 +50,10 @@ class WalletRepository:
             with open(self.wallets_file, mode='r', newline='') as file:
                 reader = csv.reader(file)
                 for row in reader:
-                    self.wallets[row[0]] = Wallet(row[0], row[1])
+                    wallet_id = row[0]
+                    user_id = row[1]
+                    balance = float(row[2])  # Load the balance correctly
+                    self.wallets[wallet_id] = Wallet(wallet_id, user_id, balance)  # Initialize with balance
 
     def save_wallets(self):
         with open(self.wallets_file, mode='w', newline='') as file:
