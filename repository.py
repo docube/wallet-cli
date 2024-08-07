@@ -121,8 +121,8 @@ class TransactionRepository:
             self.transactions[sender] = []
         if receiver not in self.transactions:
             self.transactions[receiver] = []
-        self.transactions[sender].append((transaction_id, f"Sent ₦{amount} to {receiver}"))
-        self.transactions[receiver].append((transaction_id, f"Received ₦{amount} from {sender}"))
+        self.transactions[sender].append((transaction_id, f"Sent {amount} to {receiver}"))
+        self.transactions[receiver].append((transaction_id, f"Received {amount} from {sender}"))
         self.save_transactions()
 
     def view_transactions(self, user_id):
