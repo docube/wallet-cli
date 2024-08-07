@@ -122,7 +122,7 @@ class TransactionRepository:
                 self.transactions[sender] = []
             self.transactions[sender].append((transaction_id, f"You deposited ₦{amount} into your wallet"))
         
-        elif txn_type == "Withdraw":
+        elif txn_type == "Withdrawal":
             transaction_id = len(self.transactions.get(sender, [])) + 1
             transaction = Transaction(transaction_id, sender, receiver, amount, txn_type)
             if sender not in self.transactions:
