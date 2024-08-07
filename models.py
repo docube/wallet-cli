@@ -25,9 +25,10 @@ class Wallet:
         return False
 
 class Transaction:
-    def __init__(self, transaction_id, sender, receiver, amount):
+    def __init__(self, transaction_id, sender, receiver, amount, txn_type):
         self.transaction_id = transaction_id
         self.sender = sender
         self.receiver = receiver
         self.amount = amount
         self.created_at = datetime.now()
+        self.txn_type = txn_type

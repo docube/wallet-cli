@@ -114,9 +114,9 @@ class TransactionRepository:
                 for txn in txns:
                     writer.writerow([username, txn[0], txn[1]])
 
-    def create_transaction(self, sender, receiver, amount):
+    def create_transaction(self, sender, receiver, amount, txn_type):
         transaction_id = len(self.transactions.get(sender, [])) + 1
-        transaction = Transaction(transaction_id, sender, receiver, amount)
+        transaction = Transaction(transaction_id, sender, receiver, amount, txn_type)
         if sender not in self.transactions:
             self.transactions[sender] = []
         if receiver not in self.transactions:
