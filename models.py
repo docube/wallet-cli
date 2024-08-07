@@ -11,7 +11,7 @@ class User:
 class Wallet:
     def __init__(self, wallet_id, user_id, balance=0.0):
         self.wallet_id = wallet_id
-        self.balance = 0.0
+        self.balance = balance
         self.user_id = user_id
         self.created_at = datetime.now()
 
