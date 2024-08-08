@@ -67,13 +67,13 @@ def deposit_money(username):
     amount = float(input("Enter the amount to deposit: ₦"))
     wallet_repo.deposit(username, amount)
     txn_repo.create_transaction(username, username, amount, "Deposit")
-    print(f"Deposited ₦{amount} successfully.")
+    print(f"CR: Deposited ₦{amount} successfully.")
 
 def withdraw_money(username):
     amount = float(input("Enter the amount to withdraw: ₦"))
     if wallet_repo.withdraw(username, amount):
         txn_repo.create_transaction(username, username, -amount, "Withdrawal")
-        print(f"Withdrew ₦{amount} successfully.")
+        print(f"DR: Withdrew ₦{amount} successfully.")
     else:
         print("Insufficient balance.")
 
@@ -86,7 +86,7 @@ def send_money(username):
     amount = float(input("Enter the amount to send: ₦"))
     if wallet_repo.send_money(username, recipient, amount):
         txn_repo.create_transaction(username, recipient, -amount, "Send")
-        print(f"Sent ₦{amount} to {recipient} successfully.")
+        print(f"DR: Sent ₦{amount} to {recipient} successfully.")
     else:
         print("Transaction failed due to insufficient balance or other issues.")
 
@@ -104,6 +104,7 @@ def view_transactions(username):
         print(f"{txn[0]}. {txn[1]}")
 
 def view_single_transaction(username):
+    view_transactions()
     txn_id = int(input("Enter the transaction ID to view details: "))
     txn = txn_repo.view_single_transaction(username, txn_id)
     if txn:
