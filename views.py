@@ -94,6 +94,7 @@ def view_balance(username):
     balance = wallet_repo.view_balance(username)
     print(f"Your current balance is: ₦{balance}")
 
+'''
 def view_transactions(username):
     transactions = txn_repo.view_transactions(username)
     if not transactions:
@@ -119,9 +120,8 @@ def view_single_transaction(username):
             print(f"Transaction {txn_id}: {txn[1]}")
     else:
         print("Transaction ID not found.")
-
-
 '''
+
 def view_transactions(username):
     transactions = txn_repo.view_transactions(username)
     if not transactions:
@@ -141,4 +141,3 @@ def view_single_transaction(username):
         print(f"Transaction {txn_id}: {txn[1]}")
     else:
         print("Transaction ID not found.")
-'''
