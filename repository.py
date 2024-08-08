@@ -126,25 +126,25 @@ class TransactionRepository:
             transaction = Transaction(transaction_id, sender, receiver, amount, txn_type)
             if sender not in self.transactions:
                 self.transactions[sender] = []
-            self.transactions[sender].append((transaction_id, f"You deposited ₦{amount} into your wallet"))
+            self.transactions[sender].append((transaction_id, f"CR: You deposited ₦{amount} into your wallet"))
         
         elif txn_type == "Withdrawal":
             transaction_id = len(self.transactions.get(sender, [])) + 1
             transaction = Transaction(transaction_id, sender, receiver, amount, txn_type)
             if sender not in self.transactions:
                 self.transactions[sender] = []
-            self.transactions[sender].append((transaction_id, f"You withdrew ₦{amount} from your wallet"))
+            self.transactions[sender].append((transaction_id, f"DR: You withdrew ₦{amount} from your wallet"))
         
         elif txn_type == "Send":
             transaction_id = len(self.transactions.get(sender, [])) + 1
             transaction = Transaction(transaction_id, sender, receiver, amount, txn_type)
             if sender not in self.transactions:
                 self.transactions[sender] = []
-            self.transactions[sender].append((transaction_id, f"Sent ₦{amount} to {receiver}"))
+            self.transactions[sender].append((transaction_id, f"DR: Sent ₦{amount} to {receiver}"))
             
             if receiver not in self.transactions:
                 self.transactions[receiver] = []
-            self.transactions[receiver].append((transaction_id, f"Received ₦{amount} from {sender}"))
+            self.transactions[receiver].append((transaction_id, f"CR: Received ₦{amount} from {sender}"))
 
         self.save_transactions()
 
