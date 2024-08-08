@@ -6,4 +6,6 @@ bee,1,CR: You deposited ₦1000000000.0 into your wallet
 bee,2,DR: You withdrew ₦10000000.0 from your wallet
 bee,3,DR: Sent ₦1200000.0 to dee
 bee,4,CR: Received ₦5000000.0 from dee
-tee,4,CR: You deposited 50000000000.0 into your wallet
+bee,2,CR: Received ₦200000000.0 from tee
+tee,1,CR: You deposited 50000000000.0 into your wallet
+tee,2,DR: Sent ₦200000000.0 to bee
