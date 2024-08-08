@@ -127,7 +127,7 @@ def view_transactions(username):
     if not transactions:
         print("No transactions found.")
         return
-    print("Your transactions:")
+    print("ID. transactions:")
     for txn in transactions:
         print(f"{txn[0]}. {txn[1]}")
 
