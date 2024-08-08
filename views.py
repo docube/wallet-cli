@@ -104,7 +104,6 @@ def view_transactions(username):
         print(f"{txn[0]}. {txn[1]}")
 
 def view_single_transaction(username):
-    view_transactions()
     txn_id = int(input("Enter the transaction ID to view details: "))
     txn = txn_repo.view_single_transaction(username, txn_id)
     if txn:
