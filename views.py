@@ -85,7 +85,7 @@ def send_money(username):
 
     amount = float(input("Enter the amount to send: ₦"))
     if wallet_repo.send_money(username, recipient, amount):
-        txn_repo.create_transaction(username, recipient, -amount, "Send")
+        txn_repo.create_transaction(username, recipient, amount, "Send")
         print(f"DR: Sent ₦{amount} to {recipient} successfully.")
     else:
         print("Transaction failed due to insufficient balance or other issues.")
@@ -101,15 +101,44 @@ def view_transactions(username):
         return
     print("Your transactions:")
     for txn in transactions:
+        if "Received" in txn[1]:  # Only show the "Received" part to the recipient
+            print(f"{txn[0]}. {txn[1]}")
+        elif "Sent" in txn[1]:  # Only show the "Sent" part to the sender
+            print(f"{txn[0]}. {txn[1]}")
+
+def view_single_transaction(username):
+    print("Here are your transactions:")
+    view_transactions(username)  # Display the list of transactions
+    
+    txn_id = int(input("Enter the transaction ID to view details: "))
+    txn = txn_repo.view_single_transaction(username, txn_id)
+    if txn:
+        if "Received" in txn[1]:  # Display the received transaction if it's the receiver
+            print(f"Transaction {txn_id}: {txn[1]}")
+        elif "Sent" in txn[1]:  # Display the sent transaction if it's the sender
+            print(f"Transaction {txn_id}: {txn[1]}")
+    else:
+        print("Transaction ID not found.")
+
+
+'''
+def view_transactions(username):
+    transactions = txn_repo.view_transactions(username)
+    if not transactions:
+        print("No transactions found.")
+        return
+    print("Your transactions:")
+    for txn in transactions:
         print(f"{txn[0]}. {txn[1]}")
 
 def view_single_transaction(username):
     print("Here are your transactions:")
     view_transactions(username)  # Call view_transactions to display the list of transactions
-    
+
     txn_id = int(input("Enter the transaction ID to view details: "))
     txn = txn_repo.view_single_transaction(username, txn_id)
     if txn:
         print(f"Transaction {txn_id}: {txn[1]}")
     else:
         print("Transaction ID not found.")
+'''
