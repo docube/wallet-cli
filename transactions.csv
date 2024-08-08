@@ -2,7 +2,13 @@ dee,1,You deposited ₦100000000000.0 into your wallet
 dee,2,You withdrew ₦-10000000.0 from your wallet
 dee,3,Received ₦40000000.0 from ife
 dee,4,Sent ₦30000000.0 to ife
+dee,3,Received ₦2000000.0 from bee
 ife,1,You deposited ₦100000000000.0 into your wallet
 ife,2,You withdrew ₦-10000000.0 from your wallet
 ife,3,Sent ₦40000000.0 to dee
 ife,4,Received ₦30000000.0 from dee
+ife,4,Received ₦1500000.0 from bee
+bee,1,You deposited ₦100000000.0 into your wallet
+bee,2,You withdrew ₦-1000000.0 from your wallet
+bee,3,Sent ₦2000000.0 to dee
+bee,4,Sent ₦1500000.0 to ife

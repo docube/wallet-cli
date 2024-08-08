@@ -85,7 +85,7 @@ def send_money(username):
 
     amount = float(input("Enter the amount to send: ₦"))
     if wallet_repo.send_money(username, recipient, amount):
-        txn_repo.create_transaction(username, recipient, amount, "Send")
+        txn_repo.create_transaction(username, recipient, -amount, "Send")
         print(f"Sent ₦{amount} to {recipient} successfully.")
     else:
         print("Transaction failed due to insufficient balance or other issues.")
