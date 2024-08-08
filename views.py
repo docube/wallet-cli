@@ -72,7 +72,7 @@ def deposit_money(username):
 def withdraw_money(username):
     amount = float(input("Enter the amount to withdraw: ₦"))
     if wallet_repo.withdraw(username, amount):
-        txn_repo.create_transaction(username, username, -amount, "Withdrawal")
+        txn_repo.create_transaction(username, username, amount, "Withdrawal")
         print(f"DR: Withdrew ₦{amount} successfully.")
     else:
         print("Insufficient balance.")
