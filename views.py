@@ -94,34 +94,6 @@ def view_balance(username):
     balance = wallet_repo.view_balance(username)
     print(f"Your current balance is: ₦{balance}")
 
-'''
-def view_transactions(username):
-    transactions = txn_repo.view_transactions(username)
-    if not transactions:
-        print("No transactions found.")
-        return
-    print("Your transactions:")
-    for txn in transactions:
-        if "Received" in txn[1]:  # Only show the "Received" part to the recipient
-            print(f"{txn[0]}. {txn[1]}")
-        elif "Sent" in txn[1]:  # Only show the "Sent" part to the sender
-            print(f"{txn[0]}. {txn[1]}")
-
-def view_single_transaction(username):
-    print("Here are your transactions:")
-    view_transactions(username)  # Display the list of transactions
-    
-    txn_id = int(input("Enter the transaction ID to view details: "))
-    txn = txn_repo.view_single_transaction(username, txn_id)
-    if txn:
-        if "Received" in txn[1]:  # Display the received transaction if it's the receiver
-            print(f"Transaction {txn_id}: {txn[1]}")
-        elif "Sent" in txn[1]:  # Display the sent transaction if it's the sender
-            print(f"Transaction {txn_id}: {txn[1]}")
-    else:
-        print("Transaction ID not found.")
-'''
-
 def view_transactions(username):
     transactions = txn_repo.view_transactions(username)
     if not transactions:
