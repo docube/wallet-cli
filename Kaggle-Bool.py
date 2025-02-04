@@ -29,3 +29,4 @@ print(can_run_for_nigerian_president(55, True));
 
 print(True or True and False);
 print(False and False);
+
